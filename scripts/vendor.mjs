@@ -71,6 +71,12 @@ for (const entry of ['package.json', ...pkg.files]) {
   cpSync(from, join(target, entry), { recursive: true });
   copied++;
 }
+// npm links a file: dependency and would install its devDependencies (TypeScript, ESLint,
+// Tailwind…) into the app. The copy needs none of them, nor this repository's scripts.
+const vendoredPkg = { ...pkg };
+delete vendoredPkg.devDependencies;
+delete vendoredPkg.scripts;
+writeFileSync(join(target, 'package.json'), JSON.stringify(vendoredPkg, null, 2) + '\n');
 writeFileSync(join(target, 'VENDORED.json'), JSON.stringify({ name: pkg.name, version: pkg.version, ref: ref ?? null, commit }, null, 2) + '\n');
 if (tmp) rmSync(tmp, { recursive: true, force: true });
 
