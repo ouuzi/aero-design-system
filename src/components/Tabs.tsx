@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useRef } from 'react';
 import { badgeClass, segmentedGroup, segmentedItem, tabItem, tabList } from './styles.js';
 import { cn } from '../lib/utils.js';

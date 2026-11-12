@@ -1,3 +1,4 @@
+'use client';
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React, { useId } from 'react';
 import { fieldInvalid, fieldLabel, fieldNote, inputSizes, textareaBase } from './styles.js';

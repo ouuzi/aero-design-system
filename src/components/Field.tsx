@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useId } from 'react';
 import { fieldInvalid, fieldLabel, fieldNote, inputSizes, textareaBase, type ControlSize } from './styles.js';
 import { cn } from '../lib/utils.js';

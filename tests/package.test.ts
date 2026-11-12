@@ -67,6 +67,15 @@ test('dist: every client module keeps its directive, every relative import its .
     }
   }
   assert.ok(client >= 20, `${client} client modules`);
+  // A module that calls hooks or creates a context is client code: without the directive, a
+  // server component that imports the index fails in Next when the package is not under
+  // node_modules (a vendored copy is a symlink to vendor/, compiled as app code).
+  for (const src of walk(join(root, 'src')).filter((f) => /\.tsx?$/.test(f))) {
+    const text = readFileSync(src, 'utf8');
+    if (/\b(?:React\.)?(?:use(?:State|Effect|LayoutEffect|Ref|Id|Context|Callback|Memo|SyncExternalStore|Reducer)\(|createContext\()/.test(text)) {
+      assert.match(text, /^'use client';/, `${src} uses hooks: it needs 'use client'`);
+    }
+  }
   // The entry points a server component imports carry no directive.
   for (const file of ['dist/index.js', 'dist/components/styles.js', 'dist/lib/themeScript.js', 'dist/lib/utils.js']) {
     assert.doesNotMatch(read(file), /^['"]use client['"]/, file);

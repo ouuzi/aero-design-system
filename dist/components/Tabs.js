@@ -1,3 +1,4 @@
+'use client';
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useRef } from 'react';
 import { badgeClass, segmentedGroup, segmentedItem, tabItem, tabList } from './styles.js';
