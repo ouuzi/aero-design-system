@@ -1,0 +1,29 @@
+<!-- @dsCard group="Feedback" height=284 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function row() { return h.apply(null, ['div', { className: 'flex flex-wrap items-center gap-3' }].concat([].slice.call(arguments))); }
+function col() { return h.apply(null, ['div', { className: 'flex flex-col gap-3' }].concat([].slice.call(arguments))); }
+function Demo(props) { var s = React.useState(props.initial); return props.render(s[0], s[1]); }
+var GROUPS = [
+  { key: 't', label: 'Training', cells: [
+    { key: 't1', code: 'HF', name: 'Human Factors', state: 'valid' }, { key: 't2', code: 'EWIS', name: 'EWIS', state: 'valid' },
+    { key: 't3', code: 'FTS', name: 'Fuel Tank Safety', state: 'due', note: 'Due in 25d' }, { key: 't4', code: 'A320', name: 'A320 type', state: 'valid' },
+    { key: 't5', code: 'SMS', name: 'Safety Management', state: 'missing', note: 'Expired' } ] },
+  { key: 'd', label: 'Documents', cells: [
+    { key: 'd1', code: 'LIC', name: 'Part-66 licence', state: 'valid' }, { key: 'd2', code: 'MED', name: 'Medical', state: 'pending' },
+    { key: 'd3', code: 'ID', name: 'Identity', state: 'valid' } ] },
+  { key: 'a', label: 'Authorisations', cells: [
+    { key: 'a1', code: 'B1', name: 'B1 certifying', state: 'valid' }, { key: 'a2', code: 'C', name: 'C base', state: 'na' } ] }
+];
+ReactDOM.createRoot(document.getElementById('root')).render(h(function Preview() { return h(UI.Card,{padding:'none'},h(UI.EmptyState,{title:'No training records yet',action:h(UI.Button,{variant:'primary',size:'sm',icon:I.Plus},'Assign course')},'Assign a course to start this person\'s training history.')); }));
+</script>
+</body>
+</html>

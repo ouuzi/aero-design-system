@@ -1,0 +1,25 @@
+<!-- @dsCard group="Feedback" height=184 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function row() { return h.apply(null, ['div', { className: 'flex flex-wrap items-center gap-4' }].concat([].slice.call(arguments))); }
+function Preview() {
+  return h('div', { className: 'grid max-w-[720px] grid-cols-2 gap-4' },
+    h('div', { className: 'flex flex-col gap-4' },
+      row(h(UI.Spinner, { size: 12 }), h(UI.Spinner, { size: 14 }), h(UI.Spinner, null), h(UI.Spinner, { size: 20, tone: 'accent', label: 'Loading records' })),
+      row(h('span', { className: 'text-12 text-muted' }, h(UI.Spinner, { tone: 'muted' }, 'Scanning 3 files…'))),
+      row(h(UI.Button, { variant: 'primary', icon: I.Save, loading: true }, 'Save'), h(UI.Button, { loading: true }, 'Export'), h(UI.IconButton, { icon: I.Download, label: 'Download', loading: true }))),
+    h('div', { className: 'rounded-xl border border-line bg-surface' },
+      h(UI.LoadingState, { title: 'Loading document', size: 'sm' }, 'Checking record ownership')));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

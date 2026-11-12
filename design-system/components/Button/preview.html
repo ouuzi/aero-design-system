@@ -1,0 +1,46 @@
+<!-- @dsCard group="Actions" height=268 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function row() { return h.apply(null, ['div', { className: 'flex flex-wrap items-center gap-3' }].concat([].slice.call(arguments))); }
+function col() { return h.apply(null, ['div', { className: 'flex flex-col gap-3' }].concat([].slice.call(arguments))); }
+function Preview() {
+  var s = React.useState(false), saving = s[0], setSaving = s[1];
+  var save = function () { setSaving(true); setTimeout(function () { setSaving(false); }, 1500); };
+  return col(
+    row(
+      h(UI.Button, { variant: 'primary', icon: I.Plus }, 'Assign authorisation'),
+      h(UI.Button, { variant: 'secondary', icon: I.Download }, 'Export'),
+      h(UI.Button, { variant: 'ghost' }, 'Cancel'),
+      h(UI.Button, { variant: 'danger', icon: I.Trash2 }, 'Delete record'),
+      h(UI.Button, { variant: 'danger-ghost' }, 'Remove')),
+    row(
+      h(UI.Button, { variant: 'primary', size: 'sm' }, 'Save'),
+      h(UI.Button, { variant: 'primary' }, 'Save'),
+      h(UI.Button, { variant: 'primary', size: 'lg' }, 'Save'),
+      h('span', { className: 'text-12 text-muted' }, 'sm 32 · md 36 · lg 40px')),
+    row(
+      h(UI.Button, { variant: 'primary', icon: I.Save, loading: saving, onClick: save }, 'Save assessment'),
+      h(UI.Button, { loading: true }, 'Export'),
+      h(UI.Button, { variant: 'primary', disabled: true }, 'Disabled')),
+    row(
+      h(UI.Button, { icon: I.Layers, 'aria-pressed': true }, 'Details'),
+      h(UI.Button, { variant: 'ghost', icon: I.Filter, 'aria-pressed': false }, 'Filters'),
+      h('span', { className: 'text-12 text-muted' }, 'aria-pressed: a toggle')),
+    h('div', { className: 'flex flex-wrap items-center gap-3 rounded-xl bg-viewer-deep p-3' },
+      h(UI.Button, { dark: true, variant: 'primary', size: 'sm', icon: I.Download }, 'Download scan'),
+      h(UI.Button, { dark: true, size: 'sm', icon: I.Layers, 'aria-pressed': true }, 'Details'),
+      h(UI.Button, { dark: true, size: 'sm', variant: 'ghost' }, 'Cancel'),
+      h(UI.Button, { dark: true, size: 'sm', variant: 'danger-ghost' }, 'Discard edits')));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!-- @dsCard group="Overlays" height=460 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+function Body() {
+  return h('div', { className: 'space-y-4' },
+    h(UI.Field, { label: 'Scope', hint: "Only scopes this person's assessment covers are listed." }, h(UI.Select, null, h('option', null, 'A320 family, B1, line maintenance'))),
+    h(UI.Field, { label: 'Valid until' }, h(UI.DatePicker, { value: '2027-03-14', onChange: function () {} })),
+    h(UI.Notice, { tone: 'info', title: 'AES-CM-07 assessment found' }, 'Completed 12 Mar 2026 by Nikos Papadakis, competent.'));
+}
+function App() {
+  var s = React.useState('md'), size = s[0], setSize = s[1];
+  var c = React.useState(false), child = c[0], setChild = c[1];
+  var close = function () { setSize(null); setChild(false); };
+  var footer = h(React.Fragment, null,
+    h(UI.Button, { size: 'lg', onClick: function () { setChild(true); } }, 'Check prerequisites'),
+    h(UI.Button, { size: 'lg', variant: 'primary' }, 'Assign authorisation'));
+  return h('div', null,
+    h('div', { className: 'flex flex-wrap gap-2' },
+      ['sm', 'md', 'lg', 'xl'].map(function (k) { return h(UI.Button, { key: k, onClick: function () { setSize(k); } }, 'Open ' + k + ' sheet'); })),
+    h('p', { className: 'mt-2 text-12 text-muted' }, 'sm 480 · md 640 (default) · lg 896 · xl 1280px'),
+    size && h(UI.ModalShell, { id: 'assign-authorisation', title: 'Assign authorisation', subtitle: 'Eleni Georgiou · AES-0412', eyebrow: 'Authorisations', size: size, onClose: close, footer: footer }, h(Body)),
+    child && h(UI.ModalShell, { title: 'Prerequisites', subtitle: 'A320 family, B1', size: 'sm', layer: 'nested', onClose: function () { setChild(false); },
+      footer: h(UI.Button, { size: 'lg', variant: 'primary', onClick: function () { setChild(false); } }, 'Done') },
+      h(UI.Notice, { tone: 'success', title: 'Human Factors recurrent' }, 'Valid until 14 Mar 2027.')));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+</script>
+</body>
+</html>

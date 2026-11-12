@@ -1,0 +1,25 @@
+<!-- @dsCard group="Layout" height=150 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+ReactDOM.createRoot(document.getElementById('root')).render(
+  h(UI.TooltipProvider, null,
+    h(UI.PageHeader, {
+      title: 'Personnel directory',
+      description: 'Maintenance, airworthiness and support personnel.',
+      back: { label: 'Back to authorisations', onClick: function () {} },
+      actions: h(React.Fragment, null,
+        h(UI.IconButton, { icon: I.MoreHorizontal, label: 'More actions' }),
+        h(UI.Button, { icon: I.Download }, 'Export roster'),
+        h(UI.Button, { variant: 'primary', icon: I.UserPlus }, 'Add staff member'))
+    })));
+</script>
+</body>
+</html>

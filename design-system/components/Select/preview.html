@@ -1,0 +1,39 @@
+<!-- @dsCard group="Forms" height=392 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+function Preview() {
+  var s = React.useState('Line maintenance'), dept = s[0], setDept = s[1];
+  var p = React.useState(''), pos = p[0], setPos = p[1];
+  // Open the department list once, so the page shows the list as well as the closed fields.
+  React.useEffect(function () { var t = document.getElementById('preview-dept'); if (t) t.click(); }, []);
+  return h('div', { className: 'flex max-w-[720px] flex-col gap-4' },
+    h('div', { className: 'grid grid-cols-3 items-start gap-4' },
+      h(UI.Field, { label: 'Assessment department', required: true },
+        h(UI.Select, { id: 'preview-dept', value: dept, onChange: function (e) { setDept(e.target.value); }, required: true },
+          h('option', null, 'Base maintenance'), h('option', null, 'CAMO'), h('option', null, 'Line maintenance'),
+          h('option', null, 'Quality and safety'), h('option', { disabled: true }, 'Stores (inactive)'))),
+      h(UI.Field, { label: 'Primary position', required: true, error: 'Choose a position.' },
+        h(UI.Select, { value: pos, onChange: function (e) { setPos(e.target.value); }, required: true },
+          h('option', { value: '' }, 'Select a position'),
+          h('optgroup', { label: 'Maintenance' }, h('option', null, 'Certifying staff'), h('option', null, 'Support staff')),
+          h('optgroup', { label: 'CAMO' }, h('option', null, 'Airworthiness review staff')))),
+      h(UI.Field, { label: 'Assessment type', hint: 'Fixed by the scope.' },
+        h(UI.Select, { disabled: true, defaultValue: 'r' }, h('option', { value: 'r' }, 'Renewal')))),
+    h('div', { className: 'mt-44 flex items-center gap-3' },
+      h(UI.Select, { size: 'md', className: 'w-auto', 'aria-label': 'Delivery type', defaultValue: 'all' },
+        h('option', { value: 'all' }, 'All delivery types'), h('option', null, 'Classroom'), h('option', null, 'On the job')),
+      h('div', { className: 'w-36' }, h(UI.Select, { size: 'sm', 'aria-label': 'Result', defaultValue: 'Passed' }, h('option', null, 'Passed'), h('option', null, 'Gap'))),
+      h('span', { className: 'text-12 text-muted' }, 'md 36px in a toolbar (w-auto), sm 32px in a table cell')));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

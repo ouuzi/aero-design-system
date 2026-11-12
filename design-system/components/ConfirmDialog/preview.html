@@ -1,0 +1,32 @@
+<!-- @dsCard group="Overlays" height=320 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function App() {
+  var o = React.useState('danger'), open = o[0], setOpen = o[1];
+  var b = React.useState(false), busy = b[0], setBusy = b[1];
+  var close = function () { setOpen(null); setBusy(false); };
+  return h('div', null,
+    h('div', { className: 'flex gap-2' },
+      h(UI.Button, { variant: 'danger-ghost', icon: I.Trash2, onClick: function () { setOpen('danger'); } }, 'Delete course'),
+      h(UI.Button, { icon: I.Archive, onClick: function () { setOpen('default'); } }, 'Archive person')),
+    open === 'danger' && h(UI.ConfirmDialog, {
+      tone: 'danger', eyebrow: 'TRN-002', title: 'Delete course TRN-002?',
+      body: 'Its 14 training records keep their history but lose the course link. This cannot be undone.',
+      confirmLabel: 'Delete course', busy: busy,
+      onConfirm: function () { setBusy(true); setTimeout(close, 1500); }, onCancel: close }),
+    open === 'default' && h(UI.ConfirmDialog, {
+      title: 'Archive Eleni Georgiou?', body: 'She leaves the directory and readiness counts. You can restore her from Archived personnel.',
+      confirmLabel: 'Archive person', onConfirm: close, onCancel: close }));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+</script>
+</body>
+</html>

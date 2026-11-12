@@ -1,0 +1,21 @@
+<!-- @dsCard group="Forms" height=88 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function row() { return h.apply(null, ['div', { className: 'flex flex-wrap items-center gap-3' }].concat([].slice.call(arguments))); }
+ReactDOM.createRoot(document.getElementById('root')).render(h(function Preview() { return row(
+  h('div', { className: 'w-56' }, h(UI.Input, { size: 'md', placeholder: 'Search name or ID', 'aria-label': 'Search personnel' })),
+  h(UI.FilterSelect, { label: 'Dept', defaultValue: 'all' }, h('option', { value: 'all' }, 'All departments'), h('option', null, 'Line maintenance')),
+  h(UI.FilterSelect, { label: 'Status', defaultValue: 'all' }, h('option', { value: 'all' }, 'All statuses'), h('option', null, 'Expiring soon')),
+  h(UI.Button, { icon: I.Download }, 'Export')
+); }));
+</script>
+</body>
+</html>

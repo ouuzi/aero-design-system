@@ -1,0 +1,23 @@
+<!-- @dsCard group="Feedback" height=330 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function view() { return h(UI.LinkButton, { size: 'sm' }, 'View profile'); }
+ReactDOM.createRoot(document.getElementById('root')).render(
+  h('div', { style: { maxWidth: 440 } },
+    h(UI.Card, { title: 'Urgent alerts', actions: h(UI.Badge, null, '4 open'), padding: 'none' },
+      h(UI.AlertList, { label: 'Urgent alerts', limit: 3 },
+        h(UI.AlertRow, { tone: 'danger', title: 'Giorgos Dimitriou has 5 blocking findings', meta: 'Line Maintenance \u00b7 Oldest 35 days overdue', action: view() }),
+        h(UI.AlertRow, { tone: 'danger', title: 'Thanasis Makris has 5 blocking findings', meta: 'Base Maintenance \u00b7 Oldest 8 days overdue', action: view() }),
+        h(UI.AlertRow, { tone: 'warning', title: 'Maria Konstantinou has 3 items expiring within 60 days', meta: 'Line Maintenance \u00b7 Next one due in 41 days', action: view() }),
+        h(UI.AlertRow, { tone: 'warning', title: 'Petros Alexiou has 2 items expiring within 60 days', meta: 'CAMO \u00b7 Next one due in 38 days', action: view() })))));
+</script>
+</body>
+</html>

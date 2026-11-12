@@ -1,0 +1,26 @@
+<!-- @dsCard group="Forms" height=216 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+function Preview() {
+  var scope = React.useState('position'), mode = React.useState(null);
+  return h('div', { className: 'grid max-w-[720px] grid-cols-2 gap-6' },
+    h(UI.RadioGroup, { legend: 'Applies to', value: scope[0], onChange: scope[1] },
+      h(UI.Radio, { value: 'position', label: 'This position', description: 'Only people who hold B1 certifying engineer.' }),
+      h(UI.Radio, { value: 'department', label: 'The whole department', description: 'Everyone in base maintenance.' }),
+      h(UI.Radio, { value: 'all', label: 'All active personnel', disabled: true, description: 'Only the quality manager can choose this.' })),
+    h(UI.RadioGroup, { legend: 'Delivery', variant: 'card', required: true, error: 'Choose how the course is delivered.', value: mode[0], onChange: mode[1] },
+      h(UI.Radio, { value: 'internal', label: 'Internal', description: 'Run by our own instructors.' }),
+      h(UI.Radio, { value: 'external', label: 'External', description: 'An approved training organisation.' })));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

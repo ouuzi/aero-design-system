@@ -1,0 +1,26 @@
+<!-- @dsCard group="Feedback" height=300 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function Buttons() {
+  var t = UI.useToast().toast;
+  React.useEffect(function () {
+    t({ tone: 'success', title: 'Course saved', description: 'TRN-002 EWIS refresher', duration: null });
+    t({ tone: 'danger', title: 'Could not delete TRN-002', description: 'Check your access and try again.', action: { label: 'Try again', onClick: function () {} } });
+  }, [t]);
+  return h('div', { className: 'flex flex-wrap items-center gap-3' },
+    h(UI.Button, { variant: 'primary', icon: I.Save, onClick: function () { t({ title: 'Assessment saved' }); } }, 'Save'),
+    h(UI.Button, { onClick: function () { t({ tone: 'info', title: 'Export started', description: 'The file downloads when it is ready.' }); } }, 'Export'),
+    h(UI.Button, { variant: 'danger-ghost', onClick: function () { t({ tone: 'danger', title: 'Could not archive the record' }); } }, 'Fail'));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(UI.ToastProvider, null, h(Buttons)));
+</script>
+</body>
+</html>

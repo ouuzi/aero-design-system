@@ -1,0 +1,30 @@
+<!-- @dsCard group="Forms" height=380 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+var POSITIONS = ['B1 certifying engineer', 'B2 certifying engineer', 'Category A mechanic', 'Planner', 'Quality auditor', 'Stores controller'];
+var FLEET = ['A320', 'A321neo', 'ATR 72-600', 'B737-800'];
+function App() {
+  var v = React.useState('Planner'), list = React.useState(POSITIONS), f = React.useState(''), t = React.useState('A320');
+  return h('div', { className: 'flex max-w-[640px] flex-col gap-4' },
+    h('div', { className: 'grid grid-cols-2 gap-4' },
+      h(UI.Field, { label: 'Position', hint: 'Type to search, or add a new position.' },
+        h(UI.Combobox, { id: 'pos', label: 'Position', value: v[0], onChange: v[1], options: list[0], onOptionsChange: list[1], allowCreate: true, allowListEditing: true, placeholder: 'Select or add a position…' })),
+      h(UI.Field, { label: 'Aircraft type', required: true, error: 'Choose the aircraft type.' },
+        h(UI.Combobox, { id: 'fleet', label: 'Aircraft type', value: f[0], onChange: f[1], options: FLEET, placeholder: 'Search aircraft types…' }))),
+    h('div', { className: 'flex items-center gap-3' },
+      h('div', { className: 'w-56' }, h(UI.Combobox, { size: 'md', label: 'Fleet filter', value: t[0], onChange: t[1], options: FLEET })),
+      h('div', { className: 'w-48' }, h(UI.Combobox, { size: 'sm', label: 'Fleet in row', value: t[0], onChange: t[1], options: FLEET })),
+      h('div', { className: 'w-48' }, h(UI.Combobox, { label: 'Locked', value: 'A320', onChange: function () {}, options: FLEET, disabled: true }))));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!-- @dsCard group="Feedback" height=268 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+function Preview() {
+  return h('div', { className: 'grid max-w-[760px] grid-cols-[1fr_1.4fr] gap-4' },
+    h('div', { className: 'flex flex-col gap-4 rounded-xl border border-line bg-surface p-4' },
+      h('div', { className: 'flex items-center gap-3' },
+        h(UI.Skeleton, { shape: 'circle', label: 'Loading profile' }),
+        h('div', { className: 'flex-1' }, h(UI.Skeleton, { width: '60%' }), h(UI.Skeleton, { width: '40%', className: 'mt-2' }))),
+      h(UI.SkeletonText, { lines: 3 }),
+      h(UI.Skeleton, { shape: 'block', height: 56 })),
+    h(UI.Table, { loading: true, loadingLabel: 'Loading personnel' },
+      h(UI.THead, null, h('tr', null, h(UI.Th, null, 'Name'), h(UI.Th, null, 'Licence'), h(UI.Th, null, 'Status'), h(UI.Th, { align: 'right' }, 'Days left'))),
+      h('tbody', null, h(UI.SkeletonTableRows, { columns: 4, rows: 4, align: ['left', 'left', 'left', 'right'] }))));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

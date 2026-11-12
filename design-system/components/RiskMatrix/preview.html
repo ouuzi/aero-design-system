@@ -1,0 +1,22 @@
+<!-- @dsCard group="Safety" height=440 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function Preview() {
+  var s = React.useState({ value: '4B', residual: '2D' }), st = s[0], set = s[1];
+  var m = React.useState('residual'), mode = m[0], setMode = m[1];
+  return h('div', { className: 'flex flex-col gap-3' },
+    h(UI.SegmentedControl, { label: 'Which risk to set', value: mode, onChange: setMode, options: [{ value: 'initial', label: 'Set initial risk' }, { value: 'residual', label: 'Set residual risk' }] }),
+    h(UI.RiskMatrix, { value: st.value, residual: st.residual, mode: mode, onChange: function (c) { set(Object.assign({}, st, mode === 'residual' ? { residual: c } : { value: c })); } }));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

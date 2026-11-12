@@ -1,0 +1,33 @@
+<!-- @dsCard group="Data" height=320 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+var rows = [
+  { id: 1, name: 'Eleni Georgiou', lic: 'B1.1', until: '14 Mar 2027', iso: '2027-03-14', status: 'Valid' },
+  { id: 2, name: 'Nikos Papadakis', lic: 'B2', until: '22 Nov 2026', iso: '2026-11-22', status: 'Expiring Soon' },
+  { id: 3, name: 'Maria Kosta', lic: 'C', until: '02 Sep 2026', iso: '2026-09-02', status: 'Expired' },
+  { id: 4, name: 'Giorgos Antoniou', lic: 'B1.3', until: '30 Jun 2028', iso: '2028-06-30', status: 'Valid' }
+];
+ReactDOM.createRoot(document.getElementById('root')).render(h(UI.DataTable, {
+  caption: 'Part-66 licences by engineer', selectable: true, defaultSelected: [2], rowLabel: function (r) { return r.name; },
+  defaultSort: { key: 'until', dir: 'asc' }, total: 140,
+  bulkActions: function () { return h(UI.Button, { size: 'sm', icon: I.Clock }, 'Send reminder'); },
+  footerEnd: h(UI.Button, { size: 'sm', variant: 'ghost', icon: I.Download }, 'Export'),
+  columns: [
+    { key: 'name', label: 'Name', sortable: true },
+    { key: 'lic', label: 'Licence', render: function (r) { return h(UI.CodeChip, null, r.lic); } },
+    { key: 'until', label: 'Valid until', sortable: true, sortValue: function (r) { return r.iso; } },
+    { key: 'status', label: 'Status', render: function (r) { return h(UI.StatusBadge, { kind: 'authorisation', status: r.status }); } }
+  ],
+  rows: rows
+}));
+</script>
+</body>
+</html>

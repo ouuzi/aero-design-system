@@ -1,0 +1,28 @@
+<!-- @dsCard group="Forms" height=192 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+function Preview() {
+  var a = React.useState('2026-03-14'), b = React.useState(''), c = React.useState('2026-09-02'), d = React.useState('2026-11-22');
+  return h('div', { className: 'flex max-w-[720px] flex-col gap-4' },
+    h('div', { className: 'grid grid-cols-3 gap-4' },
+      h(UI.Field, { label: 'Issue date', required: true }, h(UI.DatePicker, { value: a[0], onChange: a[1], required: true })),
+      h(UI.Field, { label: 'Valid until', hint: 'Leave empty if it does not expire.' }, h(UI.DatePicker, { value: b[0], onChange: b[1] })),
+      h(UI.Field, { label: 'Next assessment', error: 'The assessment is overdue.' }, h(UI.DatePicker, { value: c[0], onChange: c[1] }))),
+    h('div', { className: 'flex flex-wrap items-center gap-3' },
+      h('div', { className: 'w-44' }, h(UI.DatePicker, { size: 'md', value: d[0], onChange: d[1], 'aria-label': 'Due from' })),
+      h('div', { className: 'w-40' }, h(UI.DatePicker, { size: 'sm', value: d[0], onChange: d[1], 'aria-label': 'Due date for Human factors' })),
+      h('div', { className: 'w-44' }, h(UI.DatePicker, { value: '2025-01-10', onChange: function () {}, disabled: true, 'aria-label': 'Created' })),
+      h('span', { className: 'text-12 text-muted' }, 'md 36px, sm 32px, disabled')));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

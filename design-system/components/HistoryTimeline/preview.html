@@ -1,0 +1,22 @@
+<!-- @dsCard group="Data" height=408 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { maxWidth: 560 } }, h(UI.HistoryTimeline, { label: 'History of authorisation AES-AUT-0412', events: [
+  { kind: 'edit', action: 'Expiry date corrected', by: 'Anna Vlachou', role: 'Quality manager', authNo: 'AES-Q-01', at: '2026-11-06T09:30:00Z', atLabel: '06 Nov 2026 09:30 UTC',
+    changes: [{ field: 'Valid until', from: '14 Mar 2026', to: '14 Mar 2027' }], reason: 'Typing error; certificate AES-TRN-2231 shows 2027.', badge: { tone: 'neutral', label: 'Correction' } },
+  { kind: 'sign', action: 'Authorisation issued', by: 'Anna Vlachou', role: 'Quality manager', authNo: 'AES-Q-01', at: '2026-03-14T08:12:00Z', atLabel: '14 Mar 2026 08:12 UTC',
+    signature: { meaning: 'I certify the scope above meets AES-CM-07', hash: '9f2c…a71e' } },
+  { kind: 'status', action: 'Assessment completed', by: 'Nikos Papadakis', role: 'Assessor', at: '2026-03-12T14:40:00Z', atLabel: '12 Mar 2026 14:40 UTC', status: { tone: 'success', label: 'Competent' } },
+  { kind: 'create', action: 'Record created', by: 'Maria Kosta', role: 'Training manager', at: '2026-03-02T10:05:00Z', atLabel: '02 Mar 2026 10:05 UTC' }
+] })));
+</script>
+</body>
+</html>

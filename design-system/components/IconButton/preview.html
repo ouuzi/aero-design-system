@@ -1,0 +1,34 @@
+<!-- @dsCard group="Actions" height=150 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function row() { return h.apply(null, ['div', { className: 'flex flex-wrap items-center gap-3' }].concat([].slice.call(arguments))); }
+ReactDOM.createRoot(document.getElementById('root')).render(h(function Preview() { return h('div', { className: 'flex flex-col gap-3' }, row(
+  h(UI.IconButton, { icon: I.Pencil, label: 'Edit record' }),
+  h(UI.IconButton, { icon: I.Download, label: 'Download', variant: 'outline' }),
+  h(UI.IconButton, { icon: I.FileText, label: 'PDF', tooltip: 'Authorisation form (AES-PA-01) as PDF', variant: 'outline' }),
+  h(UI.IconButton, { icon: I.Trash2, label: 'Delete record', variant: 'danger' }),
+  h(UI.IconButton, { icon: I.Download, label: 'Downloading', loading: true }),
+  h(UI.IconButton, { icon: I.Pencil, label: 'Edit (locked)', disabled: true }),
+  h('span', { className: 'text-12 text-muted' }, 'Hover or Tab to see each label as a tooltip.')
+), row(
+  h(UI.IconButton, { icon: I.Bell, label: 'Notifications', badge: 3, badgeLabel: '3 unread' }),
+  h(UI.IconButton, { icon: I.Bell, label: 'Notifications', badge: 128 }),
+  h(UI.IconButton, { icon: I.MessageSquare, label: 'Comments', badge: true }),
+  h(UI.IconButton, { icon: I.Layers, label: 'Show details', variant: 'outline', 'aria-pressed': true }),
+  h('div', { className: 'flex items-center gap-2 rounded-xl bg-viewer-deep p-2' },
+    h(UI.IconButton, { dark: true, icon: I.ZoomOut, label: 'Zoom out' }),
+    h(UI.IconButton, { dark: true, icon: I.ZoomIn, label: 'Zoom in' }),
+    h(UI.IconButton, { dark: true, variant: 'outline', icon: I.Printer, label: 'Print document' }),
+    h(UI.IconButton, { dark: true, variant: 'outline', icon: I.XIcon, label: 'Close document viewer' }))
+)); }));
+</script>
+</body>
+</html>

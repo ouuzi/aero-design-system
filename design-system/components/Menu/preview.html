@@ -1,0 +1,30 @@
+<!-- @dsCard group="Overlays" height=330 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function dot() { return h('span', { className: 'inline-block h-2 w-2 rounded-full bg-accent', 'aria-label': 'Unread' }); }
+function Preview() {
+  return h('div', { className: 'flex flex-wrap items-start gap-6' },
+    h('div', { className: 'w-60 rounded-xl border border-line bg-surface p-1 shadow-popover' },
+      h(UI.MenuList, { label: 'Account' },
+        h(UI.MenuItem, { icon: I.Settings, onSelect: function () {} }, 'Settings'),
+        h(UI.MenuItem, { icon: I.HelpCircle, meta: '?', onSelect: function () {} }, 'Keyboard shortcuts'),
+        h(UI.MenuSeparator),
+        h(UI.MenuItem, { icon: I.LogOut, danger: true, onSelect: function () {} }, 'Sign out'))),
+    h('div', { className: 'w-96 rounded-xl border border-line bg-surface p-1 shadow-popover' },
+      h(UI.MenuList, { label: 'Notifications' },
+        h(UI.MenuItem, { icon: I.AlertTriangle, iconTone: 'danger', meta: dot(), description: 'Giorgos Dimitriou: SMS & HF expired 35 days ago' }, 'Blocking finding'),
+        h(UI.MenuItem, { icon: I.GraduationCap, iconTone: 'warning', description: 'EWIS refresher due in 12 days for 4 people' }, 'Training due'),
+        h(UI.MenuItem, { icon: I.ListChecks, iconTone: 'info', description: 'TRN-002 issued to Line maintenance' }, 'Training order issued'))));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

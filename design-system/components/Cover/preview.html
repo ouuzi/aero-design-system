@@ -1,0 +1,60 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; background: var(--color-canvas); }
+  .cover { position: relative; width: 960px; height: 288px; overflow: hidden; background: var(--color-canvas); font-family: var(--font-sans); }
+  svg { position: absolute; left: 0; top: 0; display: block; }
+  .brand { fill: var(--color-brand); }
+  .brand-2 { fill: var(--color-brand-2); }
+  .accent { fill: var(--color-accent); }
+  .accent-soft { fill: var(--color-accent-soft); }
+  .block { rx: var(--radius-xl); }
+  .tile { rx: var(--radius-md); }
+  .text { position: absolute; left: 32px; bottom: 32px; }
+  .name { margin: 0 0 12px; font-size: 64px; line-height: .95; font-weight: 600; letter-spacing: -0.025em; color: var(--color-ink); white-space: nowrap; }
+  .tagline { margin: 0; max-width: 440px; font-size: 13px; line-height: 1.5; color: var(--color-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+  <!-- The identity band keeps the navy brand colours in both themes (the light pin). -->
+  <svg data-theme="light" width="960" height="112" viewBox="0 0 960 112" aria-hidden="true">
+    <!--
+      blocks: brand 520x124 slab, accent 184x124, accent-soft 252x124 (bleeding off the top and right edge), corners radius-xl
+      arrangement: top-band skeleton (the name is too wide for the 440px zone); a strip of unequal bands, the slab weighted widest because navy is the identity colour
+      pattern: tiles cut by radius-md, some merged two-wide, in brand-2 with three lit in accent-soft; chosen because the newest component is the annunciator readiness strip, a dense grid of status cells, and the UI is modular and tabular
+      scales: tiles 40x28 on a space-2 (8px) gap at a space-6 (24px) inset; blocks split by space-2; radius-md, radius-xl
+    -->
+    <rect class="brand block" x="0" y="-12" width="520" height="124"/>
+    <rect class="accent block" x="528" y="-12" width="184" height="124"/>
+    <rect class="accent-soft block" x="720" y="-12" width="252" height="124"/>
+
+    <rect class="brand-2 tile" x="24"  y="24" width="40" height="28"/>
+    <rect class="brand-2 tile" x="72"  y="24" width="40" height="28"/>
+    <rect class="accent-soft tile" x="120" y="24" width="88" height="28"/>
+    <rect class="brand-2 tile" x="216" y="24" width="40" height="28"/>
+    <rect class="brand-2 tile" x="264" y="24" width="40" height="28"/>
+    <rect class="brand-2 tile" x="312" y="24" width="40" height="28"/>
+    <rect class="brand-2 tile" x="360" y="24" width="88" height="28"/>
+    <rect class="brand-2 tile" x="456" y="24" width="40" height="28"/>
+
+    <rect class="brand-2 tile" x="24"  y="60" width="88" height="28"/>
+    <rect class="brand-2 tile" x="120" y="60" width="40" height="28"/>
+    <rect class="brand-2 tile" x="168" y="60" width="40" height="28"/>
+    <rect class="brand-2 tile" x="216" y="60" width="40" height="28"/>
+    <rect class="accent-soft tile" x="264" y="60" width="40" height="28"/>
+    <rect class="brand-2 tile" x="312" y="60" width="40" height="28"/>
+    <rect class="brand-2 tile" x="360" y="60" width="40" height="28"/>
+    <rect class="accent-soft tile" x="408" y="60" width="40" height="28"/>
+    <rect class="brand-2 tile" x="456" y="60" width="40" height="28"/>
+  </svg>
+  <div class="text">
+    <h1 class="name">AeroCompetence Hub</h1>
+    <p class="tagline">Training and authorisation records for Part-145 and Part-CAMO.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!-- @dsCard group="Status" height=168 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+function row() { return h.apply(null, ['div', { className: 'flex flex-wrap items-center gap-3' }].concat([].slice.call(arguments))); }
+function col() { return h.apply(null, ['div', { className: 'flex flex-col gap-3' }].concat([].slice.call(arguments))); }
+var EXPERIENCE_TONE = { Approved: 'success', Submitted: 'warning', Returned: 'danger', Draft: 'neutral' };
+ReactDOM.createRoot(document.getElementById('root')).render(h(function Preview() { return col(
+  row(h(UI.StatusBadge, { kind: 'readiness', status: 'Compliant' }), h(UI.StatusBadge, { kind: 'readiness', status: 'Expiring Soon' }), h(UI.StatusBadge, { kind: 'readiness', status: 'Non-Compliant' }), h(UI.StatusBadge, { kind: 'readiness', status: 'Not Configured', dot: true })),
+  row(h(UI.StatusBadge, { kind: 'authorisation', status: 'Valid' }), h(UI.StatusBadge, { kind: 'authorisation', status: 'Expiring Soon' }), h(UI.StatusBadge, { kind: 'authorisation', status: 'Lapsed' }), h(UI.StatusBadge, { kind: 'authorisation', status: 'Suspended' }), h(UI.StatusBadge, { kind: 'authorisation', status: 'Draft', dot: true })),
+  row(h(UI.StatusBadge, { kind: 'document', status: 'Verified' }), h(UI.StatusBadge, { kind: 'document', status: 'Pending Verification' }), h(UI.StatusBadge, { kind: 'document', status: 'Rejected' }),
+    h('span', { className: 'text-12 text-muted' }, 'Direct:'),
+    Object.keys(EXPERIENCE_TONE).map(function (s) { return h(UI.StatusBadge, { key: s, tone: EXPERIENCE_TONE[s] }, s); })),
+  row(h(UI.StatusBadge, { tone: 'success', width: 'column' }, 'Valid'), h(UI.StatusBadge, { tone: 'warning', width: 'column' }, 'Due soon'), h(UI.StatusBadge, { tone: 'danger', width: 'column' }, 'Missing'), h(UI.StatusBadge, { tone: 'neutral', width: 'column' }, 'Not required'))
+); }));
+</script>
+</body>
+</html>

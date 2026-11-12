@@ -1,0 +1,27 @@
+<!-- @dsCard group="Overlays" height=120 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 56px 16px 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function Preview() {
+  return h(UI.TooltipProvider, null,
+    h('div', { className: 'flex flex-wrap items-center gap-3' },
+      h(UI.Tooltip, { content: 'Authorisation form (AES-PA-01) as PDF', defaultOpen: true },
+        h(UI.Button, { size: 'sm', icon: I.FileText }, 'PDF')),
+      h(UI.IconButton, { icon: I.Pencil, label: 'Edit record' }),
+      h(UI.IconButton, { icon: I.Printer, label: 'Print', tooltip: 'Print the authorisation card', variant: 'outline' }),
+      h(UI.Tooltip, { content: 'Only the quality manager can issue authorisations' },
+        h('span', { tabIndex: 0, className: 'inline-flex rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent' },
+          h(UI.Button, { variant: 'primary', disabled: true }, 'Issue authorisation'))),
+      h('span', { className: 'text-12 text-muted' }, 'Hover or Tab to a control; Escape closes.')));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!-- @dsCard group="Layout" height=330 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function row() { return h.apply(null, ['div', { className: 'flex flex-wrap items-center gap-3' }].concat([].slice.call(arguments))); }
+function col() { return h.apply(null, ['div', { className: 'flex flex-col gap-3' }].concat([].slice.call(arguments))); }
+function Demo(props) { var s = React.useState(props.initial); return props.render(s[0], s[1]); }
+var GROUPS = [
+  { key: 't', label: 'Training', cells: [
+    { key: 't1', code: 'HF', name: 'Human Factors', state: 'valid' }, { key: 't2', code: 'EWIS', name: 'EWIS', state: 'valid' },
+    { key: 't3', code: 'FTS', name: 'Fuel Tank Safety', state: 'due', note: 'Due in 25d' }, { key: 't4', code: 'A320', name: 'A320 type', state: 'valid' },
+    { key: 't5', code: 'SMS', name: 'Safety Management', state: 'missing', note: 'Expired' } ] },
+  { key: 'd', label: 'Documents', cells: [
+    { key: 'd1', code: 'LIC', name: 'Part-66 licence', state: 'valid' }, { key: 'd2', code: 'MED', name: 'Medical', state: 'pending' },
+    { key: 'd3', code: 'ID', name: 'Identity', state: 'valid' } ] },
+  { key: 'a', label: 'Authorisations', cells: [
+    { key: 'a1', code: 'B1', name: 'B1 certifying', state: 'valid' }, { key: 'a2', code: 'C', name: 'C base', state: 'na' } ] }
+];
+function DeptCard(props) {
+  return h(UI.Card, { onClick: props.onClick, pressed: props.pressed, className: 'gap-3' },
+    h('span', { className: 'flex items-start justify-between gap-3' },
+      h('span', { className: 'text-14 font-semibold text-ink' }, props.name),
+      h('span', { className: 'text-22 font-semibold tabular-nums text-ink leading-none' }, props.percent)),
+    h('span', { className: 'text-12 text-muted' }, props.detail));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(function Preview() {
+  var s = React.useState('line'), sel = s[0], set = s[1];
+  return col(
+    h(UI.Card,{title:'Readiness by department',description:'Certifying staff with every requirement valid.',actions:h(UI.Button,{size:'sm',icon:I.Download},'Export')},
+      h('p',{className:'text-13 text-ink-2'},'Card body at the standard 20px padding.')),
+    h('div', { className: 'grid grid-cols-3 gap-3' },
+      h(DeptCard, { name: 'Line maintenance', percent: '92%', detail: '24 personnel', pressed: sel === 'line', onClick: function () { set(sel === 'line' ? null : 'line'); } }),
+      h(DeptCard, { name: 'Base maintenance', percent: '78%', detail: '31 personnel', pressed: sel === 'base', onClick: function () { set(sel === 'base' ? null : 'base'); } }),
+      h(DeptCard, { name: 'Component shop', percent: '100%', detail: '9 personnel', pressed: sel === 'shop', onClick: function () { set(sel === 'shop' ? null : 'shop'); } })));
+}));
+</script>
+</body>
+</html>

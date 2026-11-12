@@ -1,0 +1,32 @@
+<!-- @dsCard group="Navigation" height=360 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+var ITEMS = [
+  { id: 'dashboard', label: 'Dashboard', icon: I.LayoutDashboard },
+  { id: 'personnel', label: 'Personnel', icon: I.Users },
+  { id: 'competency', label: 'Competency assessment', icon: I.Award, badge: 4, badgeLabel: '4 assessments due' },
+  { id: 'compliance', label: 'Compliance', icon: I.Scale, badge: 3, badgeTone: 'alert', badgeLabel: '3 urgent alerts' }
+];
+function Preview() {
+  var s = React.useState('personnel'), active = s[0], setActive = s[1];
+  return h('div', { className: 'flex w-64 flex-col gap-5 rounded-xl border border-line bg-surface px-3 py-4' },
+    h(UI.NavBrand, { logo: h(I.Plane, { className: 'h-[18px] w-[18px]' }), name: 'AeroCompetence Hub', onClick: function () { setActive('dashboard'); } }),
+    h(UI.NavList, { label: 'Workspace' }, ITEMS.map(function (it) {
+      return h(UI.NavItem, { key: it.id, icon: it.icon, active: active === it.id, badge: it.badge, badgeTone: it.badgeTone, badgeLabel: it.badgeLabel, onClick: function () { setActive(it.id); } }, it.label);
+    })),
+    h(UI.NavList, { as: 'div', 'aria-label': 'Help and settings', className: 'border-t border-line pt-3' },
+      h(UI.NavItem, { icon: I.HelpCircle }, 'Support'),
+      h(UI.NavItem, { icon: I.Settings }, 'Settings')));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

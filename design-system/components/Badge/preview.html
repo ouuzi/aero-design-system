@@ -1,0 +1,20 @@
+<!-- @dsCard group="Status" height=96 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+function row() { return h.apply(null, ['div', { className: 'flex flex-wrap items-center gap-3' }].concat([].slice.call(arguments))); }
+function col() { return h.apply(null, ['div', { className: 'flex flex-col gap-3' }].concat([].slice.call(arguments))); }
+ReactDOM.createRoot(document.getElementById('root')).render(h(function Preview() { return col(
+  row(h(UI.Badge, { tone: 'neutral' }, '12 records'), h(UI.Badge, { tone: 'info' }, 'Internal'), h(UI.Badge, { tone: 'violet' }, 'External'), h(UI.Badge, { tone: 'brand' }, 'Selected')),
+  row(h(UI.Badge, { tone: 'neutral', dot: true }, 'Line maintenance'), h(UI.Badge, { tone: 'info', dot: true }, 'Recurrent'), h(UI.Badge, { tone: 'violet', dot: true }, 'Part-147'), h('span', { className: 'text-12 text-muted' }, 'Categories and counts only; a status is a StatusBadge.'))
+); }));
+</script>
+</body>
+</html>

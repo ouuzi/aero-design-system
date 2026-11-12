@@ -1,0 +1,41 @@
+<!-- @dsCard group="Status" height=320 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+var QUAL_RESULT_OPTIONS = [
+  { value: 'Not Assessed', label: 'Pending', tone: 'warning', description: 'Not checked yet' },
+  { value: 'Yes', label: 'Valid', tone: 'success', description: 'Evidence seen and in date' },
+  { value: 'No', label: 'Gap', tone: 'danger', description: 'Missing or out of date' },
+  { value: 'N/A', label: 'N/A', tone: 'neutral', description: 'Does not apply to this scope' }
+];
+var CHECKS = [
+  { ref: 'QC-1', name: 'Part-66 licence covers the scope', value: 'Yes' },
+  { ref: 'QC-2', name: 'Human Factors recurrent within 24 months', value: 'Not Assessed' },
+  { ref: 'QC-3', name: 'Type training for A320 family', value: 'No' }
+];
+function Preview() {
+  var s = React.useState(CHECKS.map(function (c) { return c.value; })), vals = s[0], set = s[1];
+  return h('div', { className: 'flex max-w-[640px] flex-col gap-3' },
+    h(UI.Table, null,
+      h(UI.THead, null, h('tr', null, h(UI.Th, null, 'Check'), h(UI.Th, null, 'Requirement'), h(UI.Th, { align: 'center' }, 'Status'))),
+      h('tbody', { className: 'divide-y divide-line' }, CHECKS.map(function (c, i) {
+        return h('tr', { key: c.ref }, h(UI.Td, null, h(UI.CodeChip, null, c.ref)), h(UI.Td, null, c.name),
+          h(UI.Td, { align: 'center' }, h(UI.StatusSelect, { 'aria-label': c.ref + ' status', value: vals[i], options: QUAL_RESULT_OPTIONS,
+            onChange: function (v) { var n = vals.slice(); n[i] = v; set(n); } })));
+      }))),
+    h('div', { className: 'flex flex-wrap items-center gap-3 text-12 text-muted' },
+      h(UI.StatusSelect, { 'aria-label': 'Inline status', width: 'auto', value: 'Yes', options: QUAL_RESULT_OPTIONS, onChange: function () {} }),
+      h(UI.StatusSelect, { 'aria-label': 'Locked status', value: 'N/A', options: QUAL_RESULT_OPTIONS, onChange: function () {}, disabled: true, dot: true }),
+      'Auto width, and disabled once signed.'));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

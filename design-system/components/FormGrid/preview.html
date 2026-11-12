@@ -1,0 +1,24 @@
+<!-- @dsCard group="Forms" height=280 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+ReactDOM.createRoot(document.getElementById('root')).render(
+  h(UI.Card, { as: 'div' },
+    h(UI.FormGrid, { columns: 3 },
+      h(UI.Field, { label: 'Full name', required: true }, h(UI.Input, { defaultValue: 'Nikos Papadakis' })),
+      h(UI.Field, { label: 'Payroll number' }, h(UI.Input, { defaultValue: 'AES-0101' })),
+      h(UI.Field, { label: 'Assessment department', required: true },
+        h(UI.Select, { defaultValue: 'lm' }, h('option', { value: 'lm' }, 'Line Maintenance'), h('option', { value: 'bm' }, 'Base Maintenance'))),
+      h(UI.Field, { label: 'Assessment date', required: true }, h(UI.Input, { defaultValue: '12-Sep-2024' })),
+      h(UI.Field, { label: 'Previous assessment date', error: 'Enter a date before the assessment date.' }, h(UI.Input, { defaultValue: '18-Sep-2025' })),
+      h(UI.Field, { label: 'Next review due', hint: 'Calculated: 24 months after the assessment date' }, h(UI.Input, { defaultValue: '12-Sep-2026', readOnly: true })))));
+</script>
+</body>
+</html>

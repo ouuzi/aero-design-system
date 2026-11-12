@@ -1,0 +1,22 @@
+<!-- @dsCard group="Forms" height=96 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub, I = UI.icons;
+function Preview() {
+  var s = React.useState('Konstantinou'), v = s[0], set = s[1];
+  return h('div', { className: 'flex flex-wrap items-center gap-3' },
+    h(UI.SearchInput, { className: 'w-72', 'aria-label': 'Search people', placeholder: 'Search name, staff ID, role', value: v, onChange: function (e) { set(e.target.value); }, onClear: function () { set(''); } }),
+    h(UI.SearchInput, { className: 'w-56', 'aria-label': 'Search courses', placeholder: 'Search courses', value: '', onChange: function () {} }),
+    h(UI.Button, { icon: I.Download }, 'Export'));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

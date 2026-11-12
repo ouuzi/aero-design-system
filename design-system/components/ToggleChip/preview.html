@@ -1,0 +1,24 @@
+<!-- @dsCard group="Forms" height=88 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+var LABELS = { line: 'Line maintenance', base: 'Base maintenance', shop: 'Component shop' };
+function Preview() {
+  var s = React.useState({ line: true, base: false, shop: true }), v = s[0], set = s[1];
+  return h('div', { className: 'flex flex-wrap items-center gap-3' },
+    Object.keys(LABELS).map(function (k) {
+      return h(UI.ToggleChip, { key: k, selected: v[k], onChange: function (on) { var n = Object.assign({}, v); n[k] = on; set(n); } }, LABELS[k]);
+    }),
+    h(UI.ToggleChip, { selected: false, disabled: true, onChange: function () {} }, 'Stores (closed)'));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Preview));
+</script>
+</body>
+</html>

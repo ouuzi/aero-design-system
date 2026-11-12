@@ -1,0 +1,22 @@
+<!-- @dsCard group="Data" height=272 -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; padding: 16px; background: var(--color-canvas); font-family: var(--font-sans); color: var(--color-ink); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+var h = React.createElement, UI = window.AeroCompetenceHub;
+ReactDOM.createRoot(document.getElementById('root')).render(h(function Preview() { return h(UI.Table, null,
+  h(UI.THead, null, h('tr', null, h(UI.Th, null, 'Name'), h(UI.Th, null, 'Licence'), h(UI.Th, null, 'Status'), h(UI.Th, { align: 'right' }, 'Days left'))),
+  h('tbody', { className: 'divide-y divide-line' },
+    h('tr', null, h(UI.Td, null, 'Eleni Georgiou'), h(UI.Td, null, h(UI.CodeChip, null, 'B1.1')), h(UI.Td, null, h(UI.StatusBadge, { kind: 'authorisation', status: 'Valid' })), h(UI.Td, { align: 'right' }, '412')),
+    h('tr', null, h(UI.Td, null, 'Nikos Papadakis'), h(UI.Td, null, h(UI.CodeChip, null, 'B2')), h(UI.Td, null, h(UI.StatusBadge, { kind: 'authorisation', status: 'Expiring Soon' })), h(UI.Td, { align: 'right' }, '21')),
+    h('tr', null, h(UI.Td, null, 'Maria Kosta'), h(UI.Td, null, h(UI.CodeChip, null, 'C')), h(UI.Td, null, h(UI.StatusBadge, { kind: 'authorisation', status: 'Lapsed' })), h(UI.Td, { align: 'right' }, '0')),
+    h('tr', null, h(UI.Td, null, 'Giorgos Antoniou'), h(UI.Td, null, h(UI.CodeChip, null, 'B1.3')), h(UI.Td, null, h(UI.StatusBadge, { kind: 'authorisation', status: 'Draft', dot: true })), h(UI.Td, { align: 'right' }, '–'))
+  )); }));
+</script>
+</body>
+</html>
