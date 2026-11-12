@@ -1,0 +1,390 @@
+/*
+ * aero-design-system/theme.css: the design system's tokens for Tailwind v4, and the ONE file
+ * an app imports. It is the source of truth: tokens.css and tokens.json are generated from it
+ * (npm run tokens), and a test fails if they drift.
+ *
+ *   @import "tailwindcss";
+ *   @import "aero-design-system/theme.css";
+ *
+ * It holds the @theme block (colours, type scale, weights, shadows, motion), the dark theme,
+ * density, print, the base rules and the `comfortable:` and `dark:` variants, and it makes
+ * Tailwind scan the kit's own compiled components (@source below), so their classes are
+ * generated without any setting in the app.
+ */
+@import "tw-animate-css"; /* animate-in, fade-in, zoom-in, slide-in-from-right: dialog, sheet and popover motion */
+
+/* The kit's components, as shipped (dist/), relative to this file. */
+@source "./dist";
+
+/*
+ * Comfortable density (tablets, the hangar floor): `comfortable:h-11` applies only while
+ * <html data-density="comfortable">. Set by DensityProvider.
+ */
+@custom-variant comfortable (&:where([data-density="comfortable"], [data-density="comfortable"] *));
+
+/*
+ * `dark:` follows the Settings switch (<html data-theme="dark">, set by ThemeProvider), never the operating system, and stops inside a light-pinned subtree and in
+ * print. Prefer the tokens: they already flip. `dark:` is for the rare thing a token cannot say.
+ */
+@custom-variant dark {
+  @media screen {
+    &:where([data-theme="dark"], [data-theme="dark"] *):not(:where([data-theme="light"], [data-theme="light"] *)) {
+      @slot;
+    }
+  }
+}
+
+@theme {
+  /*
+   * Colour lock: only the colours below exist. Tailwind's default palette (gray-500,
+   * blue-50…) is removed so an off-system colour fails to compile instead of drifting.
+   */
+  --color-*: initial;
+  --color-white: #ffffff;        /* print rules and the always-dark document viewer only: use surface or on-solid */
+  --color-black: #000000;        /* paper-form rules on the printed authorisation card only */
+
+  /* Surfaces: name the role, never "white", so the theme can flip them */
+  --color-surface: #ffffff;      /* cards, dialogs, popovers, menus, toasts, inputs and table cells: the panel and control surface */
+  --color-on-solid: #ffffff;     /* text and icons on a solid brand, brand-2, accent, danger, success or warning-fill fill (primary button, avatar, count disc) */
+  --color-scrim: rgb(22 32 46 / 0.4); /* backdrop behind dialogs, side sheets and the command palette */
+
+  /* Neutrals */
+  --color-ink: #16202e;          /* primary text */
+  --color-ink-2: #3d4654;        /* secondary text */
+  --color-muted: #626c81;        /* meta text, icons, placeholders: 4.5:1 on white, canvas, subtle and subtle-2 */
+  --color-disabled: #98a2b3;     /* disabled text only (exempt from contrast) */
+  --color-line: #e4e7ec;         /* borders, dividers */
+  --color-line-strong: #868e9b;  /* input and control borders: 3.30:1 on white, 3.05:1 on canvas, 3.05:1 on warning-bg, 3.00:1 on success-bg; bordered controls sit only on these fills, never on info-bg, danger-bg, violet fills or subtle-2 */
+  --color-canvas: #f4f6f8;       /* app background */
+  --color-subtle: var(--color-canvas); /* subtle fills, table headers: the canvas grey (they were 1.01:1 apart) */
+  --color-subtle-2: #eef0f3;     /* hover fills, tracks */
+
+  /* Brand */
+  --color-brand: #0f2a4a;        /* navy: primary actions, selected chips and segments */
+  --color-brand-2: #1c3d66;      /* hover / strong brand text */
+  --color-accent: #1f5fbf;       /* links, focus, info icons */
+  --color-accent-soft: #8db7f5;  /* accent on dark surfaces */
+
+  /* Status tones: fg / bg / line */
+  --color-success: #17734a;
+  --color-success-bg: #ebf7f0;
+  --color-success-line: #bfe3cd;
+  --color-warning: #9a5b00;
+  --color-warning-bg: #fdf5e4;
+  --color-warning-line: #f1d9a6;
+  --color-warning-fill: #c27803; /* solid amber marks only (readiness cells, bars): 3.51:1 on white, 3.07:1 on subtle-2, and lighter than success and danger (1.67:1 and 1.87:1), so "due" is not told from them by hue alone. Never for text: text is warning */
+  --color-danger: #b42318;
+  --color-danger-2: #912018;     /* danger button hover */
+  --color-danger-bg: #fdefed;
+  --color-danger-line: #f5c8c2;
+  --color-info: var(--color-accent); /* info text and icons are the accent blue */
+  --color-info-bg: #edf3fd;
+  --color-info-line: #c6d8f6;
+  --color-violet: #5b45c2;
+  --color-violet-line: #d9d1f7;
+
+  /* Dark viewer chrome (PDF viewer) */
+  --color-viewer-deep: #0d1218;  /* page well behind the document */
+  --color-viewer: #141b24;       /* panels, inputs */
+  --color-viewer-raised: #18202c;/* toolbars, sidebars */
+  --color-viewer-hover: #202a3a; /* hover on dark rows and buttons */
+  --color-viewer-line: #2e3a4d;  /* borders on dark */
+  --color-viewer-text: #c3c6d1;  /* secondary text on dark */
+  --color-viewer-muted: #9ba3af; /* meta text and icons on dark */
+  --color-success-on-dark: #4ade80;
+  --color-warning-on-dark: #fbbf24;
+  --color-danger-on-dark: #ffb4ab;
+  --color-viewer-primary: #1f5fbf;       /* primary button fill on the viewer (fixed: accent turns pale in dark) */
+  --color-viewer-primary-hover: #1c3d66;
+  --color-viewer-danger: #b42318;        /* danger button fill on the viewer (fixed: danger turns pale in dark) */
+  --color-viewer-danger-hover: #912018;
+
+  /* One typeface: Inter. No mono or serif families exist; figures use tabular-nums. */
+  --font-*: initial;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Three weights */
+  --font-weight-*: initial;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* Type scale (text-10 is for the printed authorisation card only, below the 11px
+     screen floor). Line height is left to the context or a leading-* class. */
+  --text-*: initial;
+  --text-10: 10px;
+  --text-11: 11px;
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-15: 15px;               /* body text in comfortable density */
+  --text-16: 16px;
+  --text-18: 18px;
+  --text-22: 22px;
+  --text-32: 32px;
+
+  /* Elevation, three steps: cards and controls use shadow-xs; menus, popovers and tooltips
+     float on shadow-popover; dialogs sit on shadow-modal over the scrim. No other shadow
+     exists (shadow-none still works). Tailwind writes a shadow's value into its utility, so
+     each one reads an --elevation-* variable (below, and again in the dark theme) that can
+     change with the theme. Light: tinted from ink (rgb 22 32 46). */
+  --shadow-*: initial;
+  --shadow-xs: var(--elevation-xs);
+  --shadow-popover: var(--elevation-popover);
+  --shadow-modal: var(--elevation-modal);
+
+  /* Two letter-spacings: tight for large titles, wider for the uppercase labels of the
+     printed authorisation card */
+  --tracking-*: initial;
+  --tracking-tight: -0.025em;
+  --tracking-wider: 0.05em;
+
+  /*
+   * Motion: three durations and one easing. Tailwind v4 reads `duration-*` from
+   * --transition-duration-* and `ease-*` from --ease-*, so these are the utilities
+   * duration-fast / duration-base / duration-slow and ease-standard (styles.ts exposes
+   * them as `motion.fast|base|slow`). Every transition-* utility without a duration
+   * (transition-colors…) defaults to fast + standard. Raw duration-150 or duration-[…]
+   * is off-system. prefers-reduced-motion switches all of it off (bottom of this file).
+   *   fast 120ms  hover, press, colour and focus changes; menus and popovers opening
+   *   base 180ms  centred dialogs, page fade-in, larger panels
+   *   slow 260ms  side sheets sliding in, and their backdrop
+   */
+  --transition-duration-fast: 120ms;
+  --transition-duration-base: 180ms;
+  --transition-duration-slow: 260ms;
+  --ease-*: initial;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --default-transition-duration: var(--transition-duration-fast);
+  --default-transition-timing-function: var(--ease-standard);
+}
+
+/*
+ * Control heights: one scale for every button, field, select and chip. The values
+ * change with density, so a control written once with `h-control-md` is 36px on the
+ * desktop and 44px under data-density="comfortable" (on <html>, or on one DataTable)
+ * without a `comfortable:` class of its own.
+ *   xs 28 / 36   toggle chips, small segmented items
+ *   sm 32 / 40   small buttons, icon buttons, compact inputs and selects, menu items
+ *   md 36 / 44   buttons, toolbar search and selects, list items
+ *   lg 40 / 48   form inputs, selects and date fields; buttons in form footers
+ */
+:root {
+  --elevation-xs: 0 1px 2px 0 rgb(22 32 46 / 0.05);
+  --elevation-popover: 0 8px 24px -6px rgb(22 32 46 / 0.18);
+  --elevation-modal: 0 24px 64px -12px rgb(22 32 46 / 0.35);
+  color-scheme: light;
+  --control-xs: 28px;
+  --control-sm: 32px;
+  --control-md: 36px;
+  --control-lg: 40px;
+}
+[data-density="comfortable"] {
+  --control-xs: 36px;
+  --control-sm: 40px;
+  --control-md: 44px;
+  --control-lg: 48px;
+}
+
+/*
+ * Dark theme: the same tokens, other values. Chosen per user by the switch in Settings
+ * (ThemeProvider sets <html data-theme="dark">); it never follows the
+ * operating system, and the default is light. Navy-tinted to match the viewer chrome:
+ * canvas is viewer-deep, surface is viewer, subtle viewer-raised, subtle-2 viewer-hover,
+ * line viewer-line. Screen only: print always gets the light values above.
+ *
+ * The same rules hold as in light (tests/designSystem.test.ts checks every pair, in both
+ * themes): text 4.5:1 on surface, canvas, subtle and subtle-2 (muted 5.68:1 at worst);
+ * line-strong 3:1 on the fills that hold controls (3.14:1 on subtle-2 at worst); status text
+ * 4.5:1 on its own -bg; on-solid 4.5:1 on every solid fill; the warning fill 1.6:1 or more
+ * away from success and danger in lightness (here darker than both, where in light it is
+ * lighter), and the accent focus ring 3:1 on every surface.
+ * Brand turns light blue, so a primary button or a selected chip is pale with dark
+ * (on-solid) text. Shadows are black and stronger; dialogs add a line-coloured hairline.
+ * accent-soft and the viewer-* tokens do not change: the viewer is dark in both themes.
+ */
+@media screen {
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --color-surface: #141b24;
+    --color-on-solid: #0d1218;
+    --color-scrim: rgb(0 0 0 / 0.6);
+    --color-ink: #e6e9ee;
+    --color-ink-2: #c3c6d1;
+    --color-muted: #9ba3af;
+    --color-disabled: #5c6675;
+    --color-line: #2e3a4d;
+    --color-line-strong: #6b7686;
+    --color-canvas: #0d1218;
+    --color-subtle: #18202c;
+    --color-subtle-2: #202a3a;
+    --color-brand: #8db7f5;
+    --color-brand-2: #a9c9f8;
+    --color-accent: #8db7f5;
+    --color-success: #5fd08f;
+    --color-success-bg: #11281d;
+    --color-success-line: #1f4a34;
+    --color-warning: #f0b54a;
+    --color-warning-bg: #2b2110;
+    --color-warning-line: #5a4517;
+    --color-warning-fill: #b97d10;
+    --color-danger: #ff9d92;
+    --color-danger-2: #ffb4ab;
+    --color-danger-bg: #2f1614;
+    --color-danger-line: #6b2a25;
+    --color-info-bg: #14243d;
+    --color-info-line: #274572;
+    --color-violet: #b3a4f5;
+    --color-violet-line: #3d3470;
+    --elevation-xs: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+    --elevation-popover: 0 10px 28px -6px rgb(0 0 0 / 0.7);
+    --elevation-modal: 0 0 0 1px var(--color-line), 0 24px 64px -12px rgb(0 0 0 / 0.8);
+  }
+}
+
+/*
+ * Light pin: `data-theme="light"` on an element keeps its subtree on the light palette while
+ * the app is dark. For on-screen paper only (the printed authorisation card replica, the page
+ * in the document viewer) and the navy brand banner on the sign-in card. The values repeat
+ * the light ones above (tests/designSystem.test.ts fails if they drift). Aliases are restated
+ * so they resolve here, not at the dark root.
+ */
+[data-theme="light"] {
+  color-scheme: light;
+  --color-surface: #ffffff;
+  --color-on-solid: #ffffff;
+  --color-scrim: rgb(22 32 46 / 0.4);
+  --color-ink: #16202e;
+  --color-ink-2: #3d4654;
+  --color-muted: #626c81;
+  --color-disabled: #98a2b3;
+  --color-line: #e4e7ec;
+  --color-line-strong: #868e9b;
+  --color-canvas: #f4f6f8;
+  --color-subtle: var(--color-canvas);
+  --color-subtle-2: #eef0f3;
+  --color-brand: #0f2a4a;
+  --color-brand-2: #1c3d66;
+  --color-accent: #1f5fbf;
+  --color-success: #17734a;
+  --color-success-bg: #ebf7f0;
+  --color-success-line: #bfe3cd;
+  --color-warning: #9a5b00;
+  --color-warning-bg: #fdf5e4;
+  --color-warning-line: #f1d9a6;
+  --color-warning-fill: #c27803;
+  --color-danger: #b42318;
+  --color-danger-2: #912018;
+  --color-danger-bg: #fdefed;
+  --color-danger-line: #f5c8c2;
+  --color-info: var(--color-accent);
+  --color-info-bg: #edf3fd;
+  --color-info-line: #c6d8f6;
+  --color-violet: #5b45c2;
+  --color-violet-line: #d9d1f7;
+  --elevation-xs: 0 1px 2px 0 rgb(22 32 46 / 0.05);
+  --elevation-popover: 0 8px 24px -6px rgb(22 32 46 / 0.18);
+  --elevation-modal: 0 24px 64px -12px rgb(22 32 46 / 0.35);
+}
+
+/* h-control-sm, size-control-sm, min-h-control-lg…: inline, so each use reads the
+   density-aware variable where it is used. */
+@theme inline {
+  --spacing-control-xs: var(--control-xs);
+  --spacing-control-sm: var(--control-sm);
+  --spacing-control-md: var(--control-md);
+  --spacing-control-lg: var(--control-lg);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+
+/*
+ * Dropdowns: one chevron everywhere. Browsers draw their own arrow in different
+ * places (Safari puts it flush against the edge and ignores padding), so native
+ * selects get the design system's chevron: 16px, color-muted, 10px from the right
+ * edge, with 36px reserved so the text never runs under it. Unlayered on purpose
+ * so it wins over px-* utilities. Selects that draw their own chevron opt out with
+ * `appearance-none`. A data URI cannot read a CSS variable, so the stroke repeats
+ * --color-muted (%23626c81) and, when disabled, --color-disabled (%2398a2b3): keep
+ * them in step with the tokens.
+ */
+select:not([multiple]):not([size]):not(.appearance-none) {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23626c81' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
+  padding-right: 36px;
+  text-overflow: ellipsis;
+}
+select:not([multiple]):not([size]):not(.appearance-none):disabled {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2398a2b3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+/* The same chevron in the dark theme's muted (%239ba3af) and disabled (%235c6675). */
+@media screen {
+  :root[data-theme="dark"] select:not([multiple]):not([size]):not(.appearance-none):not(:where([data-theme="light"] *)) {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ba3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+  :root[data-theme="dark"] select:not([multiple]):not([size]):not(.appearance-none):not(:where([data-theme="light"] *)):disabled {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c6675' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+}
+
+/*
+ * Annunciator readiness strip: missing or expired cells are hatched so they read
+ * without relying on colour. The stripes on the solid danger cell are on-solid (white in
+ * light, near-black in dark, where the fill is pale).
+ */
+.annunciator-hatch {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-on-solid) 55%, transparent) 0 1.5px,
+    transparent 1.5px 4px
+  );
+}
+.annunciator-hatch-soft {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-danger) 10%, transparent) 0 2px,
+    transparent 2px 7px
+  );
+}
+
+/* Custom scrollbar and animations */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-line-strong);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-muted);
+}
+
+/*
+ * Reduced motion: people who ask their system for less motion get none. Every
+ * transition and animation is switched off (dialogs, the side sheet's slide-in,
+ * popovers, menus, page fade-in, pulses) and smooth scrolling becomes a jump; things
+ * simply appear in their final state. The one exception is a busy spinner
+ * (animate-spin): its turning is the only sign that work is in progress, so it keeps
+ * turning. Last in the file and !important so it wins over every utility.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *:not(.animate-spin),
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
