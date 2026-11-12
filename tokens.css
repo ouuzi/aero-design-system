@@ -1,0 +1,190 @@
+/*
+ * aero-design-system/tokens.css: the design tokens as plain CSS custom properties, for pages
+ * built without Tailwind. GENERATED from theme.css by scripts/tokens.mjs: do not edit.
+ *
+ *   <link rel="stylesheet" href="tokens.css">
+ *   .panel { background: var(--color-surface); color: var(--color-ink); box-shadow: var(--shadow-xs); }
+ *
+ * Dark: data-theme="dark" on <html> (screen only; print stays light). Light pin:
+ * data-theme="light" on an element. Comfortable density: data-density="comfortable".
+ * --font-sans reads --font-inter: define it where Inter is loaded, e.g.
+ * :root { --font-inter: "Inter"; }
+ */
+:root {
+  color-scheme: light;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-surface: #ffffff;
+  --color-on-solid: #ffffff;
+  --color-scrim: rgb(22 32 46 / 0.4);
+  --color-ink: #16202e;
+  --color-ink-2: #3d4654;
+  --color-muted: #626c81;
+  --color-disabled: #98a2b3;
+  --color-line: #e4e7ec;
+  --color-line-strong: #868e9b;
+  --color-canvas: #f4f6f8;
+  --color-subtle: var(--color-canvas);
+  --color-subtle-2: #eef0f3;
+  --color-brand: #0f2a4a;
+  --color-brand-2: #1c3d66;
+  --color-accent: #1f5fbf;
+  --color-accent-soft: #8db7f5;
+  --color-success: #17734a;
+  --color-success-bg: #ebf7f0;
+  --color-success-line: #bfe3cd;
+  --color-warning: #9a5b00;
+  --color-warning-bg: #fdf5e4;
+  --color-warning-line: #f1d9a6;
+  --color-warning-fill: #c27803;
+  --color-danger: #b42318;
+  --color-danger-2: #912018;
+  --color-danger-bg: #fdefed;
+  --color-danger-line: #f5c8c2;
+  --color-info: var(--color-accent);
+  --color-info-bg: #edf3fd;
+  --color-info-line: #c6d8f6;
+  --color-violet: #5b45c2;
+  --color-violet-line: #d9d1f7;
+  --color-viewer-deep: #0d1218;
+  --color-viewer: #141b24;
+  --color-viewer-raised: #18202c;
+  --color-viewer-hover: #202a3a;
+  --color-viewer-line: #2e3a4d;
+  --color-viewer-text: #c3c6d1;
+  --color-viewer-muted: #9ba3af;
+  --color-success-on-dark: #4ade80;
+  --color-warning-on-dark: #fbbf24;
+  --color-danger-on-dark: #ffb4ab;
+  --color-viewer-primary: #1f5fbf;
+  --color-viewer-primary-hover: #1c3d66;
+  --color-viewer-danger: #b42318;
+  --color-viewer-danger-hover: #912018;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --text-10: 10px;
+  --text-11: 11px;
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-15: 15px;
+  --text-16: 16px;
+  --text-18: 18px;
+  --text-22: 22px;
+  --text-32: 32px;
+  --shadow-xs: var(--elevation-xs);
+  --shadow-popover: var(--elevation-popover);
+  --shadow-modal: var(--elevation-modal);
+  --tracking-tight: -0.025em;
+  --tracking-wider: 0.05em;
+  --transition-duration-fast: 120ms;
+  --transition-duration-base: 180ms;
+  --transition-duration-slow: 260ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --default-transition-duration: var(--transition-duration-fast);
+  --default-transition-timing-function: var(--ease-standard);
+  --elevation-xs: 0 1px 2px 0 rgb(22 32 46 / 0.05);
+  --elevation-popover: 0 8px 24px -6px rgb(22 32 46 / 0.18);
+  --elevation-modal: 0 24px 64px -12px rgb(22 32 46 / 0.35);
+  --control-xs: 28px;
+  --control-sm: 32px;
+  --control-md: 36px;
+  --control-lg: 40px;
+  --spacing-control-xs: var(--control-xs);
+  --spacing-control-sm: var(--control-sm);
+  --spacing-control-md: var(--control-md);
+  --spacing-control-lg: var(--control-lg);
+  /* Tailwind defaults the system uses as they are */
+  --spacing: 0.25rem;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 2rem;
+}
+[data-density="comfortable"] {
+  --control-xs: 36px;
+  --control-sm: 40px;
+  --control-md: 44px;
+  --control-lg: 48px;
+}
+@media screen {
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --color-surface: #141b24;
+    --color-on-solid: #0d1218;
+    --color-scrim: rgb(0 0 0 / 0.6);
+    --color-ink: #e6e9ee;
+    --color-ink-2: #c3c6d1;
+    --color-muted: #9ba3af;
+    --color-disabled: #5c6675;
+    --color-line: #2e3a4d;
+    --color-line-strong: #6b7686;
+    --color-canvas: #0d1218;
+    --color-subtle: #18202c;
+    --color-subtle-2: #202a3a;
+    --color-brand: #8db7f5;
+    --color-brand-2: #a9c9f8;
+    --color-accent: #8db7f5;
+    --color-success: #5fd08f;
+    --color-success-bg: #11281d;
+    --color-success-line: #1f4a34;
+    --color-warning: #f0b54a;
+    --color-warning-bg: #2b2110;
+    --color-warning-line: #5a4517;
+    --color-warning-fill: #b97d10;
+    --color-danger: #ff9d92;
+    --color-danger-2: #ffb4ab;
+    --color-danger-bg: #2f1614;
+    --color-danger-line: #6b2a25;
+    --color-info-bg: #14243d;
+    --color-info-line: #274572;
+    --color-violet: #b3a4f5;
+    --color-violet-line: #3d3470;
+    --elevation-xs: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+    --elevation-popover: 0 10px 28px -6px rgb(0 0 0 / 0.7);
+    --elevation-modal: 0 0 0 1px var(--color-line), 0 24px 64px -12px rgb(0 0 0 / 0.8);
+  }
+}
+[data-theme="light"] {
+  color-scheme: light;
+  --color-surface: #ffffff;
+  --color-on-solid: #ffffff;
+  --color-scrim: rgb(22 32 46 / 0.4);
+  --color-ink: #16202e;
+  --color-ink-2: #3d4654;
+  --color-muted: #626c81;
+  --color-disabled: #98a2b3;
+  --color-line: #e4e7ec;
+  --color-line-strong: #868e9b;
+  --color-canvas: #f4f6f8;
+  --color-subtle: var(--color-canvas);
+  --color-subtle-2: #eef0f3;
+  --color-brand: #0f2a4a;
+  --color-brand-2: #1c3d66;
+  --color-accent: #1f5fbf;
+  --color-success: #17734a;
+  --color-success-bg: #ebf7f0;
+  --color-success-line: #bfe3cd;
+  --color-warning: #9a5b00;
+  --color-warning-bg: #fdf5e4;
+  --color-warning-line: #f1d9a6;
+  --color-warning-fill: #c27803;
+  --color-danger: #b42318;
+  --color-danger-2: #912018;
+  --color-danger-bg: #fdefed;
+  --color-danger-line: #f5c8c2;
+  --color-info: var(--color-accent);
+  --color-info-bg: #edf3fd;
+  --color-info-line: #c6d8f6;
+  --color-violet: #5b45c2;
+  --color-violet-line: #d9d1f7;
+  --elevation-xs: 0 1px 2px 0 rgb(22 32 46 / 0.05);
+  --elevation-popover: 0 8px 24px -6px rgb(22 32 46 / 0.18);
+  --elevation-modal: 0 24px 64px -12px rgb(22 32 46 / 0.35);
+}
