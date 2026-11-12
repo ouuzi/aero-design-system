@@ -79,7 +79,9 @@ npm install ./vendor/aero-design-system
 git add vendor/aero-design-system package.json package-lock.json
 ```
 
-`package.json` then says `"aero-design-system": "file:vendor/aero-design-system"`.
+`package.json` then says `"aero-design-system": "file:vendor/aero-design-system"`, and npm links
+`node_modules/aero-design-system` to the folder. The copy's `package.json` has no
+`devDependencies`, so only what the kit needs at runtime is installed.
 
 | | Route A: git dependency | Route B: vendored copy |
 |---|---|---|

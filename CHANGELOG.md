@@ -35,3 +35,5 @@ there: all 43 guide previews match the app's baselines, light and dark.
   `aerometric_theme_v1`) so people keep their settings.
 - `themeInitScript` (a string) is now `getThemeInitScript(storageKey)` (a function).
 - `theme.css` drops the app-only `.row-hover-group .inline-action` rule.
+- `Field`, `NavItem` and `Tabs` now start with `'use client'` (they use hooks), so a server
+  component can import the index even when the package is linked from `vendor/`.

@@ -81,10 +81,11 @@ Bordered controls (inputs, selects, unchecked checkboxes) sit only on `surface`,
 
 ## 4. AeroMetric-Control: adopting 0.1.0
 
-Tried end to end on a copy of AeroMetric-Control (main, commit 2890c94) with the packed 0.1.0:
+Tried end to end on a copy of AeroMetric-Control (main, commit 2890c94), both with the packed
+0.1.0 installed into `node_modules` (as route A installs it) and with a vendored copy (route B):
 `npm run typecheck`, `npm run lint` (the same effective `ds/` options on every file as before),
-`npm run test:design-system` (3 app tests) and `next build` all pass. The kit's CSS output is the
-same for every class the kit uses.
+`npm run test:design-system` (3 app tests) and `next build` all pass. Every class the kit uses
+is in the built CSS as before; the home page's first-load JS is 638 to 640 kB (638 kB before).
 
 ### What changes
 
