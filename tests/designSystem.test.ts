@@ -972,6 +972,53 @@ for (const theme of ['light', 'dark'] as const) {
   });
 }
 
+/** CIE76 distance between two sRGB hex colours (D65), for telling categorical hues apart. */
+function deltaE(a: string, b: string) {
+  const lab = (hex: string) => {
+    const [r, g, bl] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+    const f = (t: number) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116);
+    const x = f((r * 0.4124 + g * 0.3576 + bl * 0.1805) / 0.95047);
+    const y = f(r * 0.2126 + g * 0.7152 + bl * 0.0722);
+    const z = f((r * 0.0193 + g * 0.1192 + bl * 0.9505) / 1.08883);
+    return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+  };
+  const [p, q] = [lab(a), lab(b)];
+  return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]);
+}
+
+const DATA_HUES = [1, 2, 3, 4, 5, 6, 7, 8].map((i) => `data-${i}`);
+
+for (const theme of ['light', 'dark'] as const) {
+  test(`data palette (${theme}): labels readable on every hue, marks visible on every fill, hues apart`, () => {
+    const p = themePalette(theme);
+    const c = (name: string) => resolveColour(p, `color-${name}`);
+    for (const hue of DATA_HUES) {
+      // A label inside a data mark is on-solid text: 4.5:1.
+      const label = contrast(c('on-solid'), c(hue));
+      assert.ok(label >= 4.5, `${theme}: on-solid on ${hue} is ${label.toFixed(2)}:1, needs 4.5:1`);
+      // The mark itself is a graphic: 3:1 on every fill a chart or timeline row may sit on.
+      for (const bg of ['surface', 'canvas', 'subtle', 'subtle-2', 'info-bg', 'success-bg', 'warning-bg', 'danger-bg']) {
+        const ratio = contrast(c(hue), c(bg));
+        assert.ok(ratio >= 3, `${theme}: ${hue} on ${bg} is ${ratio.toFixed(2)}:1, needs 3:1`);
+      }
+    }
+    // Neighbouring categories must not look alike.
+    for (let i = 0; i < DATA_HUES.length; i++) {
+      for (let j = i + 1; j < DATA_HUES.length; j++) {
+        const d = deltaE(c(DATA_HUES[i]), c(DATA_HUES[j]));
+        assert.ok(d >= 20, `${theme}: ${DATA_HUES[i]} and ${DATA_HUES[j]} are only ${d.toFixed(1)} apart (CIE76), need 20`);
+      }
+    }
+  });
+}
+
+test('data palette: documented, and kept out of the kit', () => {
+  const css = globalsCss();
+  assert.match(css, /Data palette: eight categorical hues/);
+  // The kit's own components draw status with the status tones; data hues are for app charts only.
+  for (const file of kitFiles()) assert.doesNotMatch(kitSource(file), /\b(?:bg|text|border|ring|fill|stroke)-data-\d/, file);
+});
+
 test('themes: dark overrides every flipping colour, the light pin repeats light exactly', () => {
   const light = themePalette('light');
   const dark = themePalette('dark');
@@ -1011,6 +1058,16 @@ test('themes: the switch follows the density pattern, with no flash on load', ()
     `try{if(localStorage.getItem("aerometric_theme_v1_last")==='dark')document.documentElement.dataset.theme='dark'}catch(e){}`,
   );
   assert.match(getThemeInitScript(), /"aero_theme_v1_last"/);
+  // An app that starts dark: dark unless light was chosen, and dark when storage is blocked.
+  assert.equal(
+    getThemeInitScript('hangarvisit_theme_v1', { defaultTheme: 'dark' }),
+    `try{if(localStorage.getItem("hangarvisit_theme_v1_last")!=='light')document.documentElement.dataset.theme='dark'}catch(e){document.documentElement.dataset.theme='dark'}`,
+  );
+  assert.equal(getThemeInitScript('aerometric_theme_v1', { defaultTheme: 'light' }), getThemeInitScript('aerometric_theme_v1'));
+  // The provider falls back to the same default, on the server and in the browser.
+  assert.match(theme, /defaultTheme = 'light'/);
+  assert.match(theme, /\(\) => defaultTheme\)/);
+  assert.match(theme, /\?\? fallback/);
   const density = readFileSync(join(process.cwd(), 'src/lib/density.tsx'), 'utf8');
   assert.match(density, /`\$\{storageKey\}_\$\{uid \?\? 'anonymous'\}`/);
   // The script is called from a server component (a root layout): its module is not client code.

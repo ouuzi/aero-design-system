@@ -10,14 +10,14 @@ function read(key) {
             return stored;
     }
     catch {
-        // Storage blocked (private mode, policy): light.
+        // Storage blocked (private mode, policy): the default theme.
     }
     return undefined;
 }
-function readTheme(storageKey, uid) {
+function readTheme(storageKey, uid, fallback) {
     if (!uid)
-        return read(lastThemeKey(storageKey)) ?? 'light';
-    return read(`${storageKey}_${uid}`) ?? 'light';
+        return read(lastThemeKey(storageKey)) ?? fallback;
+    return read(`${storageKey}_${uid}`) ?? fallback;
 }
 function subscribe(onChange) {
     window.addEventListener('storage', onChange); // other tabs
@@ -31,13 +31,13 @@ const ThemeContext = createContext({
     theme: 'light',
     setTheme: () => { },
 });
-export function ThemeProvider({ children, userId, storageKey = DEFAULT_THEME_STORAGE_KEY }) {
+export function ThemeProvider({ children, userId, storageKey = DEFAULT_THEME_STORAGE_KEY, defaultTheme = 'light' }) {
     const uid = userId;
-    const theme = useSyncExternalStore(subscribe, () => readTheme(storageKey, uid), () => 'light');
+    const theme = useSyncExternalStore(subscribe, () => readTheme(storageKey, uid, defaultTheme), () => defaultTheme);
     useEffect(() => {
         // Read the stored value, not `theme`: the hydration render holds the server snapshot
-        // ('light'), and applying that would undo the inline script for a frame (a light flash).
-        const current = readTheme(storageKey, uid);
+        // (the default), and applying that would undo the inline script for a frame (a flash).
+        const current = readTheme(storageKey, uid, defaultTheme);
         const root = document.documentElement;
         if (current === 'dark')
             root.dataset.theme = 'dark';
@@ -51,7 +51,7 @@ export function ThemeProvider({ children, userId, storageKey = DEFAULT_THEME_STO
         catch {
             // Not remembered when storage is blocked.
         }
-    }, [theme, uid, storageKey]);
+    }, [theme, uid, storageKey, defaultTheme]);
     const setTheme = useCallback((next) => {
         try {
             if (uid)

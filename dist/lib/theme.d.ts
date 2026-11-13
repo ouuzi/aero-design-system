@@ -13,8 +13,13 @@ export interface ThemeProviderProps {
      * setting.
      */
     storageKey?: string;
+    /**
+     * The theme for someone who has not chosen one: `light` (default) or `dark` for an app that
+     * starts dark. Pass the same value to getThemeInitScript's `defaultTheme`.
+     */
+    defaultTheme?: Theme;
 }
-export declare function ThemeProvider({ children, userId, storageKey }: ThemeProviderProps): React.JSX.Element;
+export declare function ThemeProvider({ children, userId, storageKey, defaultTheme }: ThemeProviderProps): React.JSX.Element;
 export declare const useTheme: () => {
     theme: Theme;
     setTheme: (theme: Theme) => void;

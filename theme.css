@@ -83,6 +83,25 @@
   --color-violet: #5b45c2;
   --color-violet-line: #d9d1f7;
 
+  /*
+   * Data palette: eight categorical hues for charts, timelines and legends, where the
+   * categories are not status and outnumber the category tones (info, violet, brand, neutral).
+   * A data colour always sits next to its name (a label in the mark, a legend or a tooltip),
+   * never as the only sign of what a mark is. Never for status (green, amber, red keep that
+   * meaning), text, buttons or panels. Assign them in order, one per category, from a
+   * lookup table. Text on a data fill is on-solid (4.5:1 in both themes); every hue is 3:1
+   * on surface, canvas, subtle, subtle-2 and the status and info fills, and at least
+   * 20 (CIE76) from every other hue in the same theme (tests/designSystem.test.ts).
+   */
+  --color-data-1: #1d5fa8; /* blue: categorical data only, with its label */
+  --color-data-2: #0f7b74; /* teal: categorical data only, with its label */
+  --color-data-3: #6d4bc4; /* violet: categorical data only, with its label */
+  --color-data-4: #b45309; /* orange: categorical data only, with its label */
+  --color-data-5: #a3307a; /* magenta: categorical data only, with its label */
+  --color-data-6: #3f7d20; /* green: categorical data only, with its label */
+  --color-data-7: #8a5a2b; /* brown: categorical data only, with its label */
+  --color-data-8: #5a6478; /* slate: categorical data only, with its label */
+
   /* Dark viewer chrome (PDF viewer) */
   --color-viewer-deep: #0d1218;  /* page well behind the document */
   --color-viewer: #141b24;       /* panels, inputs */
@@ -236,6 +255,14 @@
     --color-info-line: #274572;
     --color-violet: #b3a4f5;
     --color-violet-line: #3d3470;
+    --color-data-1: #8fb8f0;
+    --color-data-2: #6fd1c4;
+    --color-data-3: #b9a3f5;
+    --color-data-4: #f2a35e;
+    --color-data-5: #ef8fc8;
+    --color-data-6: #9fd47a;
+    --color-data-7: #d9b38c;
+    --color-data-8: #aab3c2;
     --elevation-xs: 0 1px 2px 0 rgb(0 0 0 / 0.5);
     --elevation-popover: 0 10px 28px -6px rgb(0 0 0 / 0.7);
     --elevation-modal: 0 0 0 1px var(--color-line), 0 24px 64px -12px rgb(0 0 0 / 0.8);
@@ -282,6 +309,14 @@
   --color-info-line: #c6d8f6;
   --color-violet: #5b45c2;
   --color-violet-line: #d9d1f7;
+  --color-data-1: #1d5fa8;
+  --color-data-2: #0f7b74;
+  --color-data-3: #6d4bc4;
+  --color-data-4: #b45309;
+  --color-data-5: #a3307a;
+  --color-data-6: #3f7d20;
+  --color-data-7: #8a5a2b;
+  --color-data-8: #5a6478;
   --elevation-xs: 0 1px 2px 0 rgb(22 32 46 / 0.05);
   --elevation-popover: 0 8px 24px -6px rgb(22 32 46 / 0.18);
   --elevation-modal: 0 24px 64px -12px rgb(22 32 46 / 0.35);

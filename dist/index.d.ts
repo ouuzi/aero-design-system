@@ -85,6 +85,7 @@ export type { Density, DensityProviderProps } from './lib/density.js';
 export { ThemeProvider, useTheme } from './lib/theme.js';
 export type { Theme, ThemeProviderProps } from './lib/theme.js';
 export { getThemeInitScript, lastThemeKey, DEFAULT_THEME_STORAGE_KEY } from './lib/themeScript.js';
+export type { DefaultTheme, ThemeInitOptions } from './lib/themeScript.js';
 export { READINESS_LABELS, countReadiness, readinessSentence, worstReadinessState } from './lib/readiness.js';
 export type { ReadinessState, ReadinessCell, ReadinessGroup, ReadinessCounts } from './lib/readiness.js';
 export type { ReadinessStatus, PersonnelAuthorisationStatus } from './lib/statusTypes.js';

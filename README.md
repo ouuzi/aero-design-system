@@ -227,7 +227,23 @@ hydrates). In plain HTML, set the attribute yourself:
 the last one used in this browser as `${storageKey}_last`. Use one key per app, and never change
 it once people have chosen (they would lose their setting). Default: `aero_theme_v1`.
 
+An app that starts dark for someone who has not chosen yet passes the same default to both:
+
+```tsx
+<script dangerouslySetInnerHTML={{ __html: getThemeInitScript('hangarvisit_theme_v1', { defaultTheme: 'dark' }) }} />
+<ThemeProvider userId={user?.uid} storageKey="hangarvisit_theme_v1" defaultTheme="dark">{children}</ThemeProvider>
+```
+
+The page is then dark unless the person chose light (also when storage is blocked).
+
 A subtree that must stay light (paper shown on screen) takes `data-theme="light"`.
+
+## Data colours
+
+`bg-data-1` … `bg-data-8` (and `text-`, `border-`, `ring-`) are eight categorical hues for
+charts and timelines whose categories are not status. Map categories to them in a lookup table,
+label every mark, put text on them in `text-on-solid`, and never use them for status, text or
+controls. See the guide's Colour section.
 
 ## Density
 

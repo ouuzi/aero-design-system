@@ -5,6 +5,27 @@ change that makes an app edit its code (a prop renamed, a component removed, a t
 renamed) bumps the major version once we reach 1.0.0; until then it bumps the minor version
 (0.1.x to 0.2.0) and is listed under "Breaking".
 
+## 0.2.0
+
+Made for hangarvisitplan, the second app on the system (a planning timeline that starts dark).
+Nothing an existing app uses changed: no component, recipe or existing token moved, and every
+guide preview matches its 0.1.0 baseline, light and dark.
+
+### Added
+
+- `ThemeProvider` takes `defaultTheme` (`'light'` by default, or `'dark'`) and
+  `getThemeInitScript(storageKey, { defaultTheme })` takes the same option, so an app can start
+  dark for someone who has not chosen a theme and still offer the switch. With the default
+  left out, the script is byte for byte what 0.1.0 wrote. New types `DefaultTheme` and
+  `ThemeInitOptions`.
+- A data palette, `color-data-1` … `color-data-8` (blue, teal, violet, orange, magenta, green,
+  brown, slate), light and dark, in `theme.css`, `tokens.css` and `tokens.json`: categorical
+  hues for charts and timelines whose categories are not status. Rules in the guide (Colour):
+  one hue per category from a lookup table, every mark labelled, text on them in `on-solid`,
+  never status, text or controls. Tests check on-solid text at 4.5:1 on each hue, each hue at
+  3:1 on surface, canvas, subtle, subtle-2 and the status and info fills, and at least 20
+  (CIE76) between any two hues, in both themes.
+
 ## 0.1.0
 
 First release, extracted from AeroMetric-Control (`components/ui`, `app/globals.css`,

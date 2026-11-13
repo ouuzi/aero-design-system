@@ -4,7 +4,8 @@ import React, { createContext, useCallback, useContext, useEffect, useSyncExtern
 import { DEFAULT_THEME_STORAGE_KEY, lastThemeKey } from './themeScript.js';
 
 /*
- * Colour theme. "light" is the default; "dark" is chosen by each user (a switch in the app's
+ * Colour theme. "light" is the default (an app that starts dark passes defaultTheme="dark");
+ * the other theme is chosen by each user (a switch in the app's
  * settings) and never follows the operating system. It is set as data-theme="dark" on <html>,
  * which the dark block in theme.css reads (the same tokens, other values; print stays light).
  * The choice is remembered per user in this browser, like display density.
@@ -29,14 +30,14 @@ function read(key: string): Theme | undefined {
     const stored = window.localStorage.getItem(key);
     if (stored === 'light' || stored === 'dark') return stored;
   } catch {
-    // Storage blocked (private mode, policy): light.
+    // Storage blocked (private mode, policy): the default theme.
   }
   return undefined;
 }
 
-function readTheme(storageKey: string, uid: string | undefined): Theme {
-  if (!uid) return read(lastThemeKey(storageKey)) ?? 'light';
-  return read(`${storageKey}_${uid}`) ?? 'light';
+function readTheme(storageKey: string, uid: string | undefined, fallback: Theme): Theme {
+  if (!uid) return read(lastThemeKey(storageKey)) ?? fallback;
+  return read(`${storageKey}_${uid}`) ?? fallback;
 }
 
 function subscribe(onChange: () => void) {
@@ -66,16 +67,21 @@ export interface ThemeProviderProps {
    * setting.
    */
   storageKey?: string;
+  /**
+   * The theme for someone who has not chosen one: `light` (default) or `dark` for an app that
+   * starts dark. Pass the same value to getThemeInitScript's `defaultTheme`.
+   */
+  defaultTheme?: Theme;
 }
 
-export function ThemeProvider({ children, userId, storageKey = DEFAULT_THEME_STORAGE_KEY }: ThemeProviderProps) {
+export function ThemeProvider({ children, userId, storageKey = DEFAULT_THEME_STORAGE_KEY, defaultTheme = 'light' }: ThemeProviderProps) {
   const uid = userId;
-  const theme = useSyncExternalStore<Theme>(subscribe, () => readTheme(storageKey, uid), () => 'light');
+  const theme = useSyncExternalStore<Theme>(subscribe, () => readTheme(storageKey, uid, defaultTheme), () => defaultTheme);
 
   useEffect(() => {
     // Read the stored value, not `theme`: the hydration render holds the server snapshot
-    // ('light'), and applying that would undo the inline script for a frame (a light flash).
-    const current = readTheme(storageKey, uid);
+    // (the default), and applying that would undo the inline script for a frame (a flash).
+    const current = readTheme(storageKey, uid, defaultTheme);
     const root = document.documentElement;
     if (current === 'dark') root.dataset.theme = 'dark';
     else delete root.dataset.theme;
@@ -85,7 +91,7 @@ export function ThemeProvider({ children, userId, storageKey = DEFAULT_THEME_STO
     } catch {
       // Not remembered when storage is blocked.
     }
-  }, [theme, uid, storageKey]);
+  }, [theme, uid, storageKey, defaultTheme]);
 
   const setTheme = useCallback(
     (next: Theme) => {
